@@ -11,29 +11,29 @@ typedef map<grid, bool> grid_bool;
 
 int main() {
 	int result = 0;
-	int x = 0, y = 0;
-	grid_bool visited;
 	ifstream input("input.txt");
+	grid pos = {0, 0};
+	grid_bool visited;
 
 	// always visit starting point
-	visited.insert({{x, y}, true});
+	visited.insert({pos, true});
 
 	char c;
 	while (input.get(c)) {
 		if (c == '<') {
-			x--;
+			pos.first--;
 		}
 		else if (c == '>') {
-			x++;
+			pos.first++;
 		}
 		else if (c == 'v') {
-			y--;
+			pos.second--;
 		}
 		else if (c == '^') {
-			y++;
+			pos.second++;
 		}
 
-		visited.insert({{x, y}, true});
+		visited.insert({pos, true});
 	}
 
 	result = visited.size();
