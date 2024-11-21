@@ -50,6 +50,8 @@ int main() {
 		visited.insert({*pos, true});
 	}
 
+	input.close();
+
 	result = visited.size();
 
 	cout << result << endl;
