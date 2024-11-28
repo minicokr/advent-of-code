@@ -19,7 +19,7 @@ int main() {
 		// first condition
 		int vowel_cnt = 0;
 
-		for (int i = 0; i < s.size(); i++) {
+		for (long unsigned int i = 0; i < s.size(); i++) {
 			for (const char& v : vowels) {
 				if (s.at(i) == v) {
 					vowel_cnt++;
@@ -33,7 +33,7 @@ int main() {
 		}
 
 		// second condition
-		int i;
+		long unsigned int i;
 		for (i = 0; i < s.size() - 1; i++) {
 			// duplicated character found
 			if (s.at(i) == s.at(i + 1)) {

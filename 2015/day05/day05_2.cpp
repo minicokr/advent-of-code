@@ -14,10 +14,10 @@ int main() {
 		bool satisfied = false;
 
 		// first condition
-		for (int i = 0; i < s.size() - 1 - 2; i++) {
+		for (long unsigned int i = 0; i < s.size() - 1 - 2; i++) {
 			auto s1 = s.substr(i, 2);
 
-			for (int j = i + 2; j < s.size() - 1; j++) {
+			for (long unsigned int j = i + 2; j < s.size() - 1; j++) {
 				auto s2 = s.substr(j, 2);
 
 				if (s1 == s2) {
@@ -36,7 +36,7 @@ int main() {
 		}
 
 		// second condition
-		for (int i = 0; i < s.size() - 2; i++) {
+		for (long unsigned int i = 0; i < s.size() - 2; i++) {
 			auto s1 = s.at(i);
 			auto s2 = s.at(i + 2);
 
