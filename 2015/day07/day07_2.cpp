@@ -2,7 +2,6 @@
 #include <fstream>
 #include <string>
 #include <map>
-#include <algorithm>
 #include <cctype>
 
 using namespace std;
