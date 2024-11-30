@@ -1,12 +1,39 @@
+# compiler and flags
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
-LDFLAGS = -lssl -lcrypto
 
+# detect platform
+UNAME_S := $(shell uname -s)
+OS_NAME := $(UNAME_S)
+
+ifeq ($(OS), Windows_NT)
+    OS_NAME := Windows
+endif
+
+# platform specific settings
+ifeq ($(OS_NAME), Darwin)  # macOS
+    OPENSSL_PREFIX := $(shell brew --prefix openssl)
+    LDFLAGS = -L$(OPENSSL_PREFIX)/lib -lssl -lcrypto
+    CPPFLAGS = -I$(OPENSSL_PREFIX)/include
+else ifeq ($(OS_NAME), Windows)  # Windows Native
+    # Adjust for OpenSSL Windows paths
+    OPENSSL_PREFIX := C:/OpenSSL-Win64
+    LDFLAGS = -L$(OPENSSL_PREFIX)/lib -lssl -lcrypto
+    CPPFLAGS = -I$(OPENSSL_PREFIX)/include
+else ifeq ($(OS_NAME), Linux)  # WSL or Linux
+    OPENSSL_PREFIX := /usr
+    LDFLAGS = -L$(OPENSSL_PREFIX)/lib -lssl -lcrypto
+    CPPFLAGS = -I$(OPENSSL_PREFIX)/include
+else
+    $(error Unsupported platform)
+endif
+
+# source files
 SRC := $(wildcard 20[0-9][0-9]/day*/day*_1.cpp) $(wildcard 20[0-9][0-9]/day*/day*_2.cpp)
-
+# object files
 OBJ := $(SRC:.cpp=.o)
 
 all: $(OBJ)
 
 %.o : %.cpp
-	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $< $(LDFLAGS)
