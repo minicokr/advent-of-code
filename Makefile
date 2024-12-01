@@ -29,7 +29,8 @@ else
 endif
 
 # source files
-SRC := $(wildcard 20[0-9][0-9]/day*/day*_1.cpp) $(wildcard 20[0-9][0-9]/day*/day*_2.cpp)
+SRC := $(shell find 20[0-9][0-9]/day* -name 'day*_1.cpp') \
+       $(shell find 20[0-9][0-9]/day* -name 'day*_2.cpp')
 # object files
 OBJ := $(SRC:.cpp=.o)
 
