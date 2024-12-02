@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
@@ -63,22 +64,13 @@ int main() {
     set<string> cities;
 
     string line;
-    string del_to = " to ";
-    string del_eq = " = ";
 
     while (getline(input, line)) {
-        // from
-        auto pos = line.find(del_to);
-        string from = line.substr(0, pos);
-		line.erase(0, pos + del_to.length());
+        stringstream ss(line);
+        string from, to, ignore;
+        int dist;
 
-        // to
-        pos = line.find(del_eq);
-        string to = line.substr(0, pos);
-        line.erase(0, pos + del_eq.length());
-
-        // distance
-        int dist = stoi(line);
+        ss >> from >> ignore >> to >> ignore >> dist;
 
         // add routes
         routes.push_back({{from, to}, dist});
