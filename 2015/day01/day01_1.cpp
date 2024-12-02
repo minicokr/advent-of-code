@@ -1,24 +1,21 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 
 using namespace std;
 
 int main() {
 	long long int result = 0;
-	char up = '(';
-	char down = ')';
 	ifstream input("input.txt");
 
 	char c;
 	while (input.get(c)) {
-		if (c == up) {
+		if (c == '(') {
 			result++;
-		}
-		else if (c == down) {
+		} else if (c == ')') {
 			result--;
 		}
 	}
+
 	input.close();
 
 	cout << result << endl;
