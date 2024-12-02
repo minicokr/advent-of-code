@@ -3,8 +3,7 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
 
 # detect platform
-UNAME_S := $(shell uname -s)
-OS_NAME := $(UNAME_S)
+OS_NAME := $(shell uname -s)
 
 ifeq ($(OS), Windows_NT)
     OS_NAME := Windows
