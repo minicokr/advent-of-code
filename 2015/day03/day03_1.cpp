@@ -1,22 +1,20 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <map>
+#include <set>
 #include <utility>
 
 using namespace std;
 
 typedef pair<int, int> grid;
-typedef map<grid, bool> grid_bool;
 
 int main() {
-	int result = 0;
 	ifstream input("input.txt");
 	grid pos = {0, 0};
-	grid_bool visited;
+	set<grid> visited;
 
 	// always visit starting point
-	visited.insert({pos, true});
+	visited.insert(pos);
 
 	char c;
 	while (input.get(c)) {
@@ -33,14 +31,12 @@ int main() {
 			pos.second++;
 		}
 
-		visited.insert({pos, true});
+		visited.insert(pos);
 	}
 	
 	input.close();
 
-	result = visited.size();
-
-	cout << result << endl;
+	cout << visited.size() << endl;
 	
 	return 0;
 }
