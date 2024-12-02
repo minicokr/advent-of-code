@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <unordered_set>
 
 using namespace std;
 
@@ -10,45 +11,26 @@ int main() {
 
 	string s;
 	while (getline(input, s)) {
-		bool satisfied = false;
+		bool first_condition = false;
+		bool second_condition = false;
 
-		// first condition
-		for (long unsigned int i = 0; i < s.size() - 1 - 2; i++) {
-			auto s1 = s.substr(i, 2);
-
-			for (long unsigned int j = i + 2; j < s.size() - 1; j++) {
-				auto s2 = s.substr(j, 2);
-
-				if (s1 == s2) {
-					satisfied = true;
-					break;
-				}
+		unordered_set<string> pairs;
+		for (size_t i = 0; i < s.size() - 1; i++) {
+			string pair = s.substr(i, 2);
+			if (i > 0 && pairs.count(pair) && s.substr(i - 1, 2) != pair) {
+				first_condition = true;
 			}
-			
-			if (satisfied) {
+			pairs.insert(pair);
+		}
+
+		for (size_t i = 0; i < s.size() - 2; i++) {
+			if (s[i] == s[i + 2]) {
+				second_condition = true;
 				break;
 			}
 		}
 
-		if (!satisfied) {
-			continue;
-		}
-
-		// second condition
-		for (long unsigned int i = 0; i < s.size() - 2; i++) {
-			auto s1 = s.at(i);
-			auto s2 = s.at(i + 2);
-
-			if (s1 == s2) {
-				satisfied = true;
-				break;
-			}
-			else {
-				satisfied = false;
-			}
-		}
-
-		if (satisfied) {
+		if (first_condition && second_condition) {
 			result++;
 		}
 	}
