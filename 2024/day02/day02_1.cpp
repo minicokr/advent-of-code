@@ -1,69 +1,63 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
+#include <string>
+#include <vector>
 
 using namespace std;
-
-bool isWithinIncreasingLimits(const int& cur_num, const int& prev_num) {
-    return prev_num < cur_num && prev_num + 3 >= cur_num;
-}
-
-bool isWithinDecreasingLimits(const int& cur_num, const int& prev_num) {
-    return prev_num > cur_num && prev_num - 3 <= cur_num;
-}
-
-bool isWithinLimits(const int& cur_num, const int& prev_num, bool increasing) {
-    if (increasing) {
-        return isWithinIncreasingLimits(cur_num, prev_num);
-    } else {
-        return isWithinDecreasingLimits(cur_num, prev_num);
-    }
-}
 
 int main() {
     ifstream input("input.txt");
 
-    int answer = 0;
-    string line;
+    vector<vector<int>> reports;
+    int report_i = 0;
 
+    // process inputs
+    string line;
     while (getline(input, line)) {
         istringstream iss(line);
-        int num, prev_num;
-        bool increasing, pass = true;
+        int level;
 
-        // read the first number
-        iss >> prev_num;
+        vector<int> report;
+        reports.push_back(report);
 
-        // read the second number
-        if (!(iss >> num)) {
-            continue;
+        while (iss >> level) {
+            reports[report_i].push_back(level);
         }
+        report_i++;
+    }
+    input.close();
 
-        if (isWithinIncreasingLimits(num, prev_num)) {
-            increasing = true;
-        } else if (isWithinDecreasingLimits(num, prev_num)) {
-            increasing = false;
-        } else {
-            pass = false;
-        }
+    // count
+    int answer = 0;
+    for (const auto& report : reports) {
+        bool consistent_condition = true;
+        bool differ_condition = true;
+        int prev_sub;
+        
+        for (size_t i = 1; i < report.size(); i++) {
+            int sub = report[i - 1] - report[i];
 
-        prev_num = num;
-
-        // process the rest of the numbers
-        while (pass && (iss >> num)) {
-            if (!isWithinLimits(num, prev_num, increasing)) {
-                pass = false;
+            if (i == 1) {
+                prev_sub = sub;
             }
-            prev_num = num;
+
+            if (abs(sub) > 3) {
+                differ_condition = false;
+            }
+            else if (sub == 0) {
+                consistent_condition = false;
+            }
+            else if (sub * prev_sub <= 0) {
+                consistent_condition = false;
+            } 
         }
 
-        if (pass) {
+        if (consistent_condition && differ_condition) {
             answer++;
         }
     }
 
-    input.close();
     cout << answer << endl;
 
     return 0;
