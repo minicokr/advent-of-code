@@ -1,110 +1,70 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
-bool isIncreasingWithinLimits(const int& cur_num, const int& prev_num) {
-    if (prev_num < cur_num && prev_num + 3 >= cur_num)
-        return true;
-    else
-        return false;
+bool isWithinIncreasingLimits(const int& cur_num, const int& prev_num) {
+    return prev_num < cur_num && prev_num + 3 >= cur_num;
 }
 
-bool isDecreasingWithinLimits(const int& cur_num, const int& prev_num) {
-    if (prev_num > cur_num && prev_num - 3 <= cur_num)
-        return true;
-    else
-        return false;
+bool isWithinDecreasingLimits(const int& cur_num, const int& prev_num) {
+    return prev_num > cur_num && prev_num - 3 <= cur_num;
+}
+
+bool isWithinLimits(const int& cur_num, const int& prev_num, bool increasing) {
+    if (increasing) {
+        return isWithinIncreasingLimits(cur_num, prev_num);
+    } else {
+        return isWithinDecreasingLimits(cur_num, prev_num);
+    }
 }
 
 int main() {
     ifstream input("input.txt");
 
     int answer = 0;
-
     string line;
-    string del = " ";
 
-    // get reports
     while (getline(input, line)) {
-        // initialize per report
-        bool increasing;
-        bool pass = true;
+        istringstream iss(line);
+        int num, prev_num;
+        bool increasing, pass = true;
 
-        // first level
-        size_t pos = line.find(del);
-        int num = stoi(line.substr(0, pos));
-        int prev_num = num;
-        // cut string
-        line.erase(0, pos + del.length());
+        // read the first number
+        iss >> prev_num;
 
-        // second level
-        pos = line.find(del);
-        num = stoi(line.substr(0, pos));
-        if (isIncreasingWithinLimits(num, prev_num)) {
+        // read the second number
+        if (!(iss >> num)) {
+            continue;
+        }
+
+        if (isWithinIncreasingLimits(num, prev_num)) {
             increasing = true;
-        }
-        else if (isDecreasingWithinLimits(num, prev_num)) {
+        } else if (isWithinDecreasingLimits(num, prev_num)) {
             increasing = false;
-        }
-        else {
+        } else {
             pass = false;
         }
+
         prev_num = num;
-        // cut string
-        line.erase(0, pos + del.length());
 
-        // get all lists from one report
-        while (pass) {
-            // until reading the all numbers
-            if (pos = line.find(del); pos != string::npos) {
-                // number
-                num = stoi(line.substr(0, pos));
-
-                // increasing
-                if (increasing && isIncreasingWithinLimits(num, prev_num)) {
-                }
-                // decreasing
-                else if (!increasing && isDecreasingWithinLimits(num, prev_num)) {
-                }
-                else {
-                    pass = false;
-                }
-
-                // cut string
-                line.erase(0, pos + del.length());
-
-                // update previous number
-                prev_num = num;
+        // process the rest of the numbers
+        while (pass && (iss >> num)) {
+            if (!isWithinLimits(num, prev_num, increasing)) {
+                pass = false;
             }
-            // last level
-            else {
-                num = stoi(line.substr(pos + del.length()));
-
-                // increasing
-                if (increasing && isIncreasingWithinLimits(num, prev_num)) {
-                }
-                // decreasing
-                else if (!increasing && isDecreasingWithinLimits(num, prev_num)) {
-                }
-                else {
-                    pass = false;
-                }
-
-                // count results
-                if (pass) {
-                    answer += 1;
-                }
-                break;
-            }
+            prev_num = num;
         }
 
+        if (pass) {
+            answer++;
+        }
     }
 
     input.close();
-
     cout << answer << endl;
-    
+
     return 0;
 }
