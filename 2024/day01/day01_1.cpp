@@ -16,7 +16,6 @@ int main() {
     vector<int> list2;
     
     string line;
-    string del = "   ";
 
     while (getline(input, line)) {
         // parse input using istringstream
