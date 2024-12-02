@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <algorithm>
 
@@ -10,32 +11,20 @@ int main() {
 	ifstream input("input.txt");
 
 	string s;
-	string del = "x";
 
 	while (getline(input, s)) {
-		// find first occurence of the delimiter
-		auto pos = s.find(del);
+		stringstream ss(s);
+		string token;
+		int dimensions[3];
+		int i = 0;
 
-		// extract
-		int l = stoi(s.substr(0, pos));
+		while (getline(ss, token, 'x')) {
+			dimensions[i++] = stoi(token);
+		}
 
-		// erase extracted
-		s.erase(0, pos + del.length());
-
-		// find next occurence of the delimiter
-		pos = s.find(del);
-
-		// extract
-		int w = stoi(s.substr(0, pos));
-
-		// erase extracted
-		s.erase(0, pos + del.length());
-
-		// find next occurence of the delimiter
-		pos = s.find(del);
-
-		// extract
-		int h = stoi(s.substr(0, pos));
+		int l = dimensions[0];
+		int w = dimensions[1];
+		int h = dimensions[2];
 			
 		int ribbon = 2 * (l + w + h - max({l, w, h}));
 		int bow = l * w * h;
