@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <sstream>
+#include <algorithm>
+#include <numeric>
 
 using namespace std;
 
@@ -15,15 +18,15 @@ int main() {
     string line;
     string del = "   ";
 
-    while(getline(input, line)) {
-        // parse input
-        auto pos = line.find(del);
-        int loc_id1 = stoi(line.substr(0, pos));
-        int loc_id2 = stoi(line.substr(pos + del.length()));
+    while (getline(input, line)) {
+        // parse input using istringstream
+        istringstream iss(line);
+        int loc_id1, loc_id2;
+        iss >> loc_id1 >> loc_id2;
 
         // add entry
-        list1.push_back(loc_id1);
-        list2.push_back(loc_id2);
+        list1.emplace_back(loc_id1);
+        list2.emplace_back(loc_id2);
     }
 
     input.close();
@@ -32,9 +35,10 @@ int main() {
     sort(list1.begin(), list1.end());
     sort(list2.begin(), list2.end());
 
-    for (size_t i = 0; i < list1.size(); i++) {
-        answer += abs(list1[i] - list2[i]);
-    }
+    // calculate the answer using transform and inner_product
+    answer = inner_product(list1.begin(), list1.end(), list2.begin(), 0, plus<>(), [](int a, int b) {
+        return abs(a - b);
+    });
 
     cout << answer << endl;
 
