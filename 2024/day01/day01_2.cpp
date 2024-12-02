@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -12,20 +13,19 @@ int main() {
 
     vector<int> list1;
     vector<int> list2;
-    map<int, int> countDups;
+    unordered_map<int, int> countDups;
     
     string line;
-    string del = "   ";
 
     while(getline(input, line)) {
         // parse input
-        auto pos = line.find(del);
-        int loc_id1 = stoi(line.substr(0, pos));
-        int loc_id2 = stoi(line.substr(pos + del.length()));
+        istringstream iss(line);
+        int loc_id1, loc_id2;
+        iss >> loc_id1 >> loc_id2;
 
         // add entry
-        list1.push_back(loc_id1);
-        list2.push_back(loc_id2);
+        list1.emplace_back(loc_id1);
+        list2.emplace_back(loc_id2);
     }
 
     input.close();
@@ -35,13 +35,12 @@ int main() {
     sort(list2.begin(), list2.end());
 
     for_each(list2.begin(), list2.end(), [&countDups](int num) {
-            countDups[num]++;
-        });
+        countDups[num]++;
+    });
 
-    for (size_t i = 0; i < list1.size(); i++) {
-        int val_to_find = list1[i];
+    for (const auto& val_to_find : list1) {
         int count = countDups[val_to_find];
-        answer += (list1[i] * count);
+        answer += (val_to_find * count);
     }
 
     cout << answer << endl;
