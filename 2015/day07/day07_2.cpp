@@ -11,11 +11,11 @@ bool isDigits(const string& s) {
 }
 
 void operation(map<string, string>& m, map<string, unsigned short>& result) {
-	string gate_and = " AND ";
-	string gate_or = " OR ";
-	string gate_rshift = " RSHIFT ";
-	string gate_lshift = " LSHIFT ";
-	string gate_not = "NOT ";
+	const string gate_and = " AND ";
+	const string gate_or = " OR ";
+	const string gate_rshift = " RSHIFT ";
+	const string gate_lshift = " LSHIFT ";
+	const string gate_not = "NOT ";
 
 	for (auto it = m.begin(); it != m.end(); ) {
 		const auto& [key, cmd] = *it;
