@@ -1,2 +1,5 @@
 *.o
 *input.txt
+*.dSYM
+*.DS_Store
+*.json
