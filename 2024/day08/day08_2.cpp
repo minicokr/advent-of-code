@@ -23,6 +23,8 @@ Coord getGradient(const Coord& coord1, const Coord& coord2) {
 void visitAntinodes(Visited& visited, const Coord& coord, const Coord& gradient) {
     int dx = gradient.first;
     int dy = gradient.second;
+    int x_max = (int) visited.size();
+    int y_max = (int) visited[0].size();
 
     // self check
     visited[coord.first][coord.second] = true;
@@ -33,18 +35,18 @@ void visitAntinodes(Visited& visited, const Coord& coord, const Coord& gradient)
         cur_coord.first += dx;
         cur_coord.second += dy;
 
-        if (cur_coord.first >= 0 && cur_coord.first < visited.size() && cur_coord.second >= 0 && cur_coord.second < visited[0].size())
+        if (cur_coord.first >= 0 && cur_coord.first < x_max && cur_coord.second >= 0 && cur_coord.second < y_max)
             visited[cur_coord.first][cur_coord.second] = true;
         else
             break;
     }
 
     cur_coord = coord;
-    while (cur_coord.first >= 0 && cur_coord.first < visited.size() && cur_coord.second >= 0 && cur_coord.second < visited[0].size()) {
+    while (cur_coord.first >= 0 && cur_coord.first < x_max && cur_coord.second >= 0 && cur_coord.second < y_max) {
         cur_coord.first -= dx;
         cur_coord.second -= dy;
 
-        if (cur_coord.first >= 0 && cur_coord.first < visited.size() && cur_coord.second >= 0 && cur_coord.second < visited[0].size())
+        if (cur_coord.first >= 0 && cur_coord.first < x_max && cur_coord.second >= 0 && cur_coord.second < y_max)
             visited[cur_coord.first][cur_coord.second] = true;
         else
             break;
