@@ -7,7 +7,7 @@
 using namespace std;
 
 bool foundResult(const vector<int>& numbers, const long long int& result, const long long int& cur_result, const int& index) {
-    if (index == numbers.size()) {
+    if (index == (int) numbers.size()) {
         if (cur_result == result)
             return true;
         else
