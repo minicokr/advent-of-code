@@ -12,7 +12,7 @@ bool foundResult(const vector<int>& numbers, const long long int& result, const 
         else
             return false;
     }
-    else if (index == numbers.size()) {
+    else if (index == (int) numbers.size()) {
         if (cur_result == result)
             return true;
         else
