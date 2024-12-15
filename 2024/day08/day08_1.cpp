@@ -13,7 +13,7 @@ bool isFrequency(const char& c) {
     return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
 }
 
-Coord findAntinodes(const Grid& grid, Visited& visited, const Coord& coord1, const Coord& coord2) {
+Coord findAntinodes(const Coord& coord1, const Coord& coord2) {
     int x = coord2.first - coord1.first + coord2.first;
     int y = coord2.second - coord1.second + coord2.second;
 
@@ -40,7 +40,7 @@ void getAntinodes(const Grid& grid, Visited& visited) {
                             Coord coord2 = make_pair(k, l);
 
                             // find antinodes
-                            Coord coord_antinode = findAntinodes(grid, visited, coord1, coord2);
+                            Coord coord_antinode = findAntinodes(coord1, coord2);
 
                             // check boundaries
                             if (coord_antinode.first >= 0 && coord_antinode.first < rows && coord_antinode.second >= 0 && coord_antinode.second < cols)
